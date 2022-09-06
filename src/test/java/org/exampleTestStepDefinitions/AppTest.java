@@ -1,4 +1,4 @@
-package org.example;
+package org.exampleTestStepDefinitions;
 
 import static org.junit.Assert.assertTrue;
 
