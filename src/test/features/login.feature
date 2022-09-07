@@ -1,3 +1,4 @@
+@ui
 Feature: Simple login test
   Scenario: login
     Given I go to url "https://www.saucedemo.com"
