@@ -3,51 +3,44 @@ package org.exampleTestStepDefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
+import org.exampleTestStepDefinitions.pages.Home;
+import org.exampleTestStepDefinitions.pages.Login;
+import org.exampleTestStepDefinitions.pages.WelComeScreen;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class loginStepDefinitions {
-    private final WebDriver driver = WebDriverManager.chromedriver().create();
+public class loginStepDefinitions{
+
+    WebDriver driver = WebDriverHolder.getDriver();
 
     @Given("I go to url {string}")
     public void i_go_to_url(String url) {
         driver.get(url);
-        System.out.println(driver.getTitle());
     }
 
-    @When("I login using user {string} and password {string}")
-    public void i_login_using_user_and_password(String userName, String password) {
-        WebElement userNameField = driver.findElement(By.id("user-name"));
-        WebElement passwordField = driver.findElement(By.name("password"));
-        WebElement loginBtn = driver.findElement(By.xpath("//input[@value='Login']"));
-
-        userNameField.sendKeys(userName);
-        passwordField.sendKeys(password);
-        loginBtn.click();
+    @Given("I skip welcome screen")
+    public void iSkipWelcomeScreen() {
+        WelComeScreen welcomePage = new WelComeScreen(driver);
+        welcomePage.clickOnChooseABaseBtn();
+        welcomePage.clickOnBrowseLibraryLink();
     }
 
-    @Then("I check page url {string}")
-    public void i_check_page_url(String expectedUrl) {
-        String actualUrl = driver.getCurrentUrl();
-        assertEquals(actualUrl, expectedUrl);
+    @Given("open login popup")
+    public void openLoginPopup() {
+        Home homePage = new Home(driver);
+        homePage.clickOnSignInBtn();
     }
-    @When("I click logout button")
-    public void i_click_logout_button() {
-        WebElement menuBtn = driver.findElement(By.id("react-burger-menu-btn"));
-        menuBtn.click();
-
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-        WebElement logoutBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Logout']")));
-        logoutBtn.click();
+    @When("enter user name {string} and password {string}")
+    public void enterUserNameAndPassword(String userName, String password) {
+        Login loginPopup = new Login(driver);
+        loginPopup.inputLoginInfo(userName, password);
+        loginPopup.clickOnSignInBtn();
+    }
+    @Then("check for login status")
+    public void checkForLoginStatus() {
+        Home homePage = new Home(driver);
+        System.out.println(homePage.isUserProfileDisplayed());
     }
 }

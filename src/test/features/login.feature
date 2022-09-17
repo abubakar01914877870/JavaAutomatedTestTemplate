@@ -1,8 +1,10 @@
 @ui
 Feature: Simple login test
-  Scenario: login
-    Given I go to url "https://www.saucedemo.com"
-    When I login using user "standard_user" and password "secret_sauce"
-    Then I check page url "https://www.saucedemo.com/inventory.html"
-    When I click logout button
-    Then I check page url "https://www.saucedemo.com/"
+  Background: Skip welcome screen
+    Given I go to url "https://staging.engineer.ai/home"
+    And I skip welcome screen
+
+  Scenario: Login Test
+    Given open login popup
+    When enter user name "sunny@yopmail.com" and password "1234qaqa"
+    Then check for login status
