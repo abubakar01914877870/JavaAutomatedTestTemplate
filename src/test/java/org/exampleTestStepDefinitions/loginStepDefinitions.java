@@ -29,18 +29,29 @@ public class loginStepDefinitions{
 
     @Given("open login popup")
     public void openLoginPopup() {
-        Home homePage = new Home(driver);
-        homePage.clickOnSignInBtn();
+        Home homePage = new Home();
+        homePage.clickOnSignInBtn(driver);
     }
     @When("enter user name {string} and password {string}")
     public void enterUserNameAndPassword(String userName, String password) {
-        Login loginPopup = new Login(driver);
-        loginPopup.inputLoginInfo(userName, password);
-        loginPopup.clickOnSignInBtn();
+        Login loginPopup = new Login();
+        loginPopup.inputLoginInfo(driver, userName, password);
+    }
+    @When("click on login sign in button")
+    public void clickOnLoginSignInButton() {
+        Login loginPopup = new Login();
+        loginPopup.clickOnSignInBtn(driver);
+    }
+
+    @When("skip message bot")
+    public void skipMessageBot() {
+        Home home = new Home();
+        home.clickOnMainLogo(driver);
     }
     @Then("check for login status")
     public void checkForLoginStatus() {
-        Home homePage = new Home(driver);
-        System.out.println(homePage.isUserProfileDisplayed());
+        Home homePage = new Home();
+        homePage.clickOnUserProfileIcon(driver);
+        homePage.clickLogOutBtn(driver);
     }
 }

@@ -7,4 +7,5 @@ Feature: Simple login test
   Scenario: Login Test
     Given open login popup
     When enter user name "sunny@yopmail.com" and password "1234qaqa"
-    Then check for login status
+    And click on login sign in button
+    And skip message bot

@@ -1,35 +1,36 @@
 package org.exampleTestStepDefinitions.pages;
 
+import org.exampleTestStepDefinitions.helper.Helper;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class Login {
-    public Login(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+    Helper helper;
+    public Login() {
+        helper = new Helper();
     }
 
-    @FindBy(id = "loginEmailInput")
-    private WebElement emailField;
+    By emailFieldLocator = By.id("loginEmailInput");
+    By passwordFieldLocator = By.name("password");
+    By signInBtnOnLogInPopupLocator = By.xpath("//button[text()='Sign in']");
 
-    @FindBy(name = "password")
-    private WebElement passwordField;
+    public void inputLoginInfo(WebDriver driver, String userName, String password){
+        WebElement emailField = helper.locateWebElementAfterElementIsVisible(driver, emailFieldLocator);
+        emailField.click();
+        emailField.clear();
+        emailField.sendKeys(userName);
 
-    @FindBy(xpath = "//button[text()='Sign in']")
-    private WebElement signInBtnOnLogInPopup;
-
-    public void inputLoginInfo(String userName, String password){
-        this.emailField.click();
-        this.emailField.clear();
-        this.emailField.sendKeys(userName);
-
-        this.passwordField.click();
-        this.passwordField.clear();
-        this.passwordField.sendKeys(password);
+        WebElement passwordField = helper.locateWebElementAfterElementIsVisible(driver, passwordFieldLocator);
+        passwordField.click();
+        passwordField.clear();
+        passwordField.sendKeys(password);
     }
 
-    public void clickOnSignInBtn(){
-        this.signInBtnOnLogInPopup.click();
+    public void clickOnSignInBtn(WebDriver driver){
+        WebElement signInBtnOnLogInPopup = helper.locateWebElementAfterElementIsVisible(driver, signInBtnOnLogInPopupLocator);
+        signInBtnOnLogInPopup.click();
     }
 }
